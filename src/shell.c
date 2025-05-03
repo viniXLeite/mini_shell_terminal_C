@@ -24,17 +24,11 @@ LOOP
 */
 
 queue_t* createNode(char* token) {
+    // Checks if the token is valid
+    if(token == NULL) return NULL;
+    
     queue_t* node = (queue_t*) malloc(sizeof(queue_t));
 
-    if (token == NULL) {
-        char *data = strdup(" ");
-
-        node->data = data;
-        node->prev = NULL;
-        node->next = NULL;
-    
-        return node;
-    }
     // Allocates a space for 'data' pointer and copies token into it
     char *data = strdup(token);
 
@@ -53,12 +47,10 @@ queue_t* parse_commands(char* tokens) {
     char* token = strtok(tokens, " ");
 
     if (token == NULL) {
-        printf("TOKEN NULL\n");
+        //printf("TOKEN NULL\n");
     }
 
     queue_t* node = createNode(token);
-
-    printf("ok2\n");
 
     while (token != NULL) {
         // Adds the token to a queue
@@ -69,59 +61,65 @@ queue_t* parse_commands(char* tokens) {
         token = strtok(NULL, " ");
     }
 
-    printf("q sze: %d\n", queue_size(head));
+    //printf("queue sze: %d\n", queue_size(head));
     free(token);
 
     return head;
 }
 
+void show_command_prompt() {
+    // Gets username from the operating system
+    char *username = getenv("USER"); 
+    char current_path[unix_path_limit];
+
+    // Gets the current path
+    getcwd(current_path, sizeof(current_path));
+    
+    // checks if username and current path are NULL
+    if (username != NULL && current_path != NULL) {
+        printf(RED "%s" RESET ":" GRN "~%s" RESET WHT "& " RESET, username, current_path);
+    }
+    else {
+        printf(RED "username" RESET ":" GRN "~path" RESET WHT "& " RESET);
+    }
+}
 
 
 int main() {
     char buffer[256];
 
-    // check if username is NULL
-    char *username = getenv("USER");  // Ou "LOGNAME" em alguns sistemas 
-    char current_path[unix_path_limit];
-
-    // LEMBRAR DE RETIRARA os \n
-
     while (1) {
-        getcwd(current_path, sizeof(current_path));
-        printf(RED "%s" RESET ":" GRN "~%s" RESET WHT "& " RESET, username, current_path);
-        
-        // Stores the user's input
-        if (fgets(buffer, sizeof(buffer), stdin) == NULL) continue;
+        show_command_prompt();
 
+        // Stores the user's input
+        fgets(buffer, sizeof(buffer), stdin);
         // Switches the '\n' character to '\0'
         buffer[strcspn(buffer, "\n")] = '\0';
-
-        printf("%ld\n", strlen(buffer));
+        //printf("buffer len: %ld\n", strlen(buffer));    
 
         size_t buffer_len = strlen(buffer);
         char* tokens = malloc(buffer_len);
 
-        // Checks if the string used to store the buffer is NULL and has len greater than 0
-        if (tokens != NULL && buffer_len > 0) {
-            strcpy(tokens, buffer);
-        }
-        else continue;
-        printf("ok1\n");
+        // Checks if the string used to store the buffer is NULL
+        if (tokens == NULL) continue;
+        else strcpy(tokens, buffer);
+
+        //printf("ok create token\n");
 
         // Gets the commands list
-        queue_t* command_list = parse_commands(tokens);
+        queue_t* tokens_list = parse_commands(tokens);
         
-        if(queue_size(command_list) == 0) continue;
+        // Checks if the command list is NULL
+        if(tokens_list == NULL) continue;
+        char* command = (char*) tokens_list->data;
 
-        char* command = (char*) command_list->data;
-
-        // exit command
+        // Executes the Shell commands
         if (strcmp(tokens, "exit") == 0) break;
         else if (strcmp(tokens, "clr") == 0) system("clear");
         else printf("vish :: '%s' Command not found\n", (char*) command);
 
         free(tokens);
-        free(command_list);
+        free(tokens_list);
     }
     
     return 0;
