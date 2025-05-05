@@ -2,19 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
+#include <dirent.h>
+
 #include "../include/queue.h"
-
-// Defines the terminal's text colors
-#define RED   "\x1B[31m"
-#define GRN   "\x1B[32m"
-#define YEL   "\x1B[33m"
-#define BLU   "\x1B[34m"
-#define MAG   "\x1B[35m"
-#define CYN   "\x1B[36m"
-#define WHT   "\x1B[37m"
-#define RESET "\x1B[0m"
-
-#define unix_path_limit 4096
+#include "../include/parser.h"
+#include "../include/prompt.h"
 
 /*
 READ
@@ -23,65 +16,35 @@ PRINT
 LOOP
 */
 
-queue_t* createNode(char* token) {
-    // Checks if the token is valid
-    if(token == NULL) return NULL;
-    
-    queue_t* node = (queue_t*) malloc(sizeof(queue_t));
+// Transformar esse arquivo em main.c e colocar o conteudo em uma função 'main_loop' em shell.h
 
-    // Allocates a space for 'data' pointer and copies token into it
-    char *data = strdup(token);
+/*
+EXPANDER: Feito os tokens, o expander rodava eles em busca do '$' e das aspas para a expansão das variáveis 
+de ambiente e remoção das aspas. Caso o expander encontrasse a variável descrida depois do símbulo ($), 
+ele a substituia pelo seu valor (guardado na nossa variável envp), caso contrário, substituia pur vazio ("").
+ Já as aspas, seguindo algumas regras, eram removidas do token.
+*/
 
-    node->data = data;
-    node->prev = NULL;
-    node->next = NULL;
+void show_dr() {
+    // ADD -a and -r flags
 
-    return node;
-}
-
-
-queue_t* parse_commands(char* tokens) {
-    queue_t *head = NULL;
-
-    // Extract the first token of 'tokens'
-    char* token = strtok(tokens, " ");
-
-    if (token == NULL) {
-        //printf("TOKEN NULL\n");
-    }
-
-    queue_t* node = createNode(token);
-
-    while (token != NULL) {
-        // Adds the token to a queue
-        node = createNode(token);
-        queue_append(&head, node);
-        
-        // Extracts the next token
-        token = strtok(NULL, " ");
-    }
-
-    //printf("queue sze: %d\n", queue_size(head));
-    free(token);
-
-    return head;
-}
-
-void show_command_prompt() {
-    // Gets username from the operating system
-    char *username = getenv("USER"); 
-    char current_path[unix_path_limit];
-
-    // Gets the current path
-    getcwd(current_path, sizeof(current_path));
-    
-    // checks if username and current path are NULL
-    if (username != NULL && current_path != NULL) {
-        printf(RED "%s" RESET ":" GRN "~%s" RESET WHT "& " RESET, username, current_path);
-    }
-    else {
-        printf(RED "username" RESET ":" GRN "~path" RESET WHT "& " RESET);
-    }
+    struct dirent *de;  // Pointer for directory entry 
+  
+    // opendir() returns a pointer of DIR type.  
+    DIR *dr = opendir("."); 
+  
+    if (dr == NULL)  // opendir returns NULL if couldn't open directory 
+    { 
+        printf("Could not open current directory" ); 
+        return; 
+    } 
+  
+    // Refer http://pubs.opengroup.org/onlinepubs/7990989775/xsh/readdir.html 
+    // for readdir() 
+    while ((de = readdir(dr)) != NULL) 
+            printf("%s\n", de->d_name); 
+  
+    closedir(dr);     
 }
 
 
@@ -93,6 +56,7 @@ int main() {
 
         // Stores the user's input
         fgets(buffer, sizeof(buffer), stdin);
+
         // Switches the '\n' character to '\0'
         buffer[strcspn(buffer, "\n")] = '\0';
         //printf("buffer len: %ld\n", strlen(buffer));    
@@ -108,15 +72,25 @@ int main() {
 
         // Gets the commands list
         queue_t* tokens_list = parse_commands(tokens);
-        
+        //queue_t* tokens_list = parse_input(tokens);
+
         // Checks if the command list is NULL
         if(tokens_list == NULL) continue;
         char* command = (char*) tokens_list->data;
 
+        char current_path[unix_path_limit];
+        getcwd(current_path, sizeof(current_path));
+
+
         // Executes the Shell commands
-        if (strcmp(tokens, "exit") == 0) break;
-        else if (strcmp(tokens, "clr") == 0) system("clear");
+        // BUILTINGS
+        if (strcmp(command, "exit") == 0) break;
+        else if (strcmp(command, "clr") == 0) system("clear");
+        else if (strcmp(command, "echo") == 0) printf("%s\n", (char*) tokens_list->next->data);
+        else if (strcmp(command, "pwd") == 0) printf("%s\n", (char*) current_path);
+        else if (strcmp(command, "ls") == 0) show_dr();
         else printf("vish :: '%s' Command not found\n", (char*) command);
+
 
         free(tokens);
         free(tokens_list);
