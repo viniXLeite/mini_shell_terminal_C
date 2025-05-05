@@ -47,9 +47,16 @@ void show_dr() {
     closedir(dr);     
 }
 
+/*
+O diretirio inicial mostrado por show_command_prompt
+tem quer ser o home do usuario e a partir dai o 
+terminal navegar para os outros
+*/
+
 
 int main() {
     char buffer[256];
+    // Inicializar uma variavel tipo diretorio e passar ela como argumento de Show_command_prompt()
 
     while (1) {
         show_command_prompt();
@@ -84,12 +91,13 @@ int main() {
 
         // Executes the Shell commands
         // BUILTINGS
-        if (strcmp(command, "exit") == 0) break;
+        if (strcmp(command, "exit") == 0) break; 
         else if (strcmp(command, "clr") == 0) system("clear");
-        else if (strcmp(command, "echo") == 0) printf("%s\n", (char*) tokens_list->next->data);
+        else if (strcmp(command, "echo") == 0) printf("%s\n", (char*) tokens_list->next->data); // exibir os outros argumentos tbm
         else if (strcmp(command, "pwd") == 0) printf("%s\n", (char*) current_path);
-        else if (strcmp(command, "ls") == 0) show_dr();
+        else if (strcmp(command, "ls") == 0 || strcmp(command, "l") == 0) show_dr(); // argumento -l e -a
         else printf("vish :: '%s' Command not found\n", (char*) command);
+        // Codigo para criar variavel pode ser 'var' 'type' 'value'
 
 
         free(tokens);
