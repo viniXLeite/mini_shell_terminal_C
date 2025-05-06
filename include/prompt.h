@@ -24,7 +24,9 @@ void show_command_prompt() {
     char current_path[unix_path_limit];
 
     // Gets the current path
-    getcwd(current_path, sizeof(current_path));
+    if(!getcwd(current_path, sizeof(current_path))) {
+        perror("Vish: Could not update current path");
+    }
     
     // checks if username and current path are NULL
     if (username != NULL && current_path != NULL) {

@@ -103,7 +103,6 @@ int queue_remove (queue_t **queue, queue_t *elem) {
     if (*queue == NULL || elem == NULL) return -1;
     
     else {
-
         // Verifica se o elem pertence à lista
         while (current->next != head) {
 
