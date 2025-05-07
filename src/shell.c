@@ -9,7 +9,7 @@
 #include "../include/queue.h"
 #include "../include/parser.h"
 #include "../include/prompt.h"
-#include "../include/executor.h"
+#include "../include/executer.h"
 
 /*
 READ
