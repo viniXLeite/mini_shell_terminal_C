@@ -18,15 +18,6 @@ PRINT
 LOOP
 */
 
-// Transformar esse arquivo em main.c e colocar o conteudo em uma função 'main_loop' em shell.h
-
-/*
-EXPANDER: Feito os tokens, o expander rodava eles em busca do '$' e das aspas para a expansão das variáveis 
-de ambiente e remoção das aspas. Caso o expander encontrasse a variável descrida depois do símbulo ($), 
-ele a substituia pelo seu valor (guardado na nossa variável envp), caso contrário, substituia pur vazio ("").
- Já as aspas, seguindo algumas regras, eram removidas do token.
-*/
-
 
 int main() {
     system("clear");
@@ -68,8 +59,6 @@ int main() {
         // Executes the Shell commands
         // BUILTINS
         if (executor(tokens_list) == false) break;
-
-        // Codigo para criar variavel pode ser 'var' 'type' 'value'
 
         free(tokens);
         free(tokens_list);

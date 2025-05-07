@@ -24,6 +24,8 @@ bool executor(queue_t* tokens_queue) {
     else if (strcmp(command, "ls") == 0 || strcmp(command, "l") == 0) show_dr(); // argumento -l e -a
     else if (strcmp(command, "cd") == 0) cd(tokens_queue);
     else if (strcmp(command, "touch") == 0) touch(tokens_queue);
+    else if (strcmp(command, "cat") == 0) cat_file(tokens_queue);
+    else if (strcmp(command, "help") == 0) help_file();
     else command_not_found(tokens_queue);
 
     return true; 
