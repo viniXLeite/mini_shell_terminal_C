@@ -20,8 +20,23 @@ LOOP
 
 
 int main() {
-    system("clear");
 
+    
+    
+    char current_path[unix_path_limit];
+    // Could not acess path
+    if (!getcwd(current_path, sizeof(current_path))) {
+        perror("Vish: Could update path");
+    }
+
+    char* help_txt_path = malloc(unix_path_limit);
+    // Copies the token_list->next content to file_name
+    snprintf(help_txt_path, unix_path_limit, "%s/help.txt", current_path);
+
+
+
+
+    system("clear");
     char buffer[256];
     char* home = getenv("HOME");
 
@@ -29,8 +44,7 @@ int main() {
         perror("Vish: could not acess Home directory");
         return 1;
     }
-
-
+    
     while (1) {
         show_command_prompt();
 
@@ -58,7 +72,7 @@ int main() {
 
         // Executes the Shell commands
         // BUILTINS
-        if (executor(tokens_list) == false) break;
+        if (executor(tokens_list, help_txt_path) == false) break;
 
         free(tokens);
         free(tokens_list);

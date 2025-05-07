@@ -145,9 +145,9 @@ void cat_file(queue_t* tokens_queue) {
     return;
 }
 
-void help_file() {
+void help_file(char* help_txt_path) {
     char line[4096];
-    FILE* file = fopen("/home/vinic/dev/c/mini_shell_terminal_C/include/help.txt", "r");
+    FILE* file = fopen(help_txt_path, "r");
 
     if (file == NULL) {
         perror("Vish: Could not open HELP file");

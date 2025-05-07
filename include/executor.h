@@ -14,7 +14,7 @@
 #define unix_path_limit 4096
 
 
-bool executor(queue_t* tokens_queue) {
+bool executor(queue_t* tokens_queue, char* help_txt_path) {
     char* command = (char*) tokens_queue->data;
 
     if (strcmp((char*) tokens_queue->data, "exit") == 0) return false;
@@ -25,7 +25,7 @@ bool executor(queue_t* tokens_queue) {
     else if (strcmp(command, "cd") == 0) cd(tokens_queue);
     else if (strcmp(command, "touch") == 0) touch(tokens_queue);
     else if (strcmp(command, "cat") == 0) cat_file(tokens_queue);
-    else if (strcmp(command, "help") == 0) help_file();
+    else if (strcmp(command, "help") == 0) help_file(help_txt_path);
     else command_not_found(tokens_queue);
 
     return true; 
