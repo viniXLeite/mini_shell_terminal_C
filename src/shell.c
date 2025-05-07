@@ -21,23 +21,21 @@ LOOP
 
 int main() {
 
-    
-    
     char current_path[unix_path_limit];
-    // Could not acess path
+
+    // Could not acess current path
     if (!getcwd(current_path, sizeof(current_path))) {
         perror("Vish: Could update path");
     }
 
+    // Stores the 'help.txt' absolute path
     char* help_txt_path = malloc(unix_path_limit);
-    // Copies the token_list->next content to file_name
-    snprintf(help_txt_path, unix_path_limit, "%s/help.txt", current_path);
-
-
-
+    snprintf(help_txt_path, unix_path_limit+10, "%s/help.txt", current_path);
 
     system("clear");
     char buffer[256];
+
+    // Stores the HOME directory absolute path
     char* home = getenv("HOME");
 
     if (chdir(home) != 0) {  // Switches to Home directory
