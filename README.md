@@ -1,10 +1,4 @@
-   :::     ::: :::::::::::  ::::::::  :::    :::
-   :+:     :+:     :+:     :+:    :+: :+:    :+:
-   +:+     +:+     +:+     +:+        +:+    +:+
-   +#+     +:+     +#+     +#++:++#++ +#++:++#++
-    +#+   +#+      +#+            +#+ +#+    +#+
-     #+#+#+#       #+#     #+#    #+# #+#    #+#
-       ###     ###########  ########  ###    ###
+<span style="font-size:32px">VISH</span>
 
 Um shell simplificado desenvolvido em C, replicando funcionalidades básicas de terminais Unix/Linux.
 
@@ -18,15 +12,6 @@ Um shell simplificado desenvolvido em C, replicando funcionalidades básicas de 
 - `cd [dir]` - Navega entre diretórios
 - `touch [file]...` - Cria arquivos vazios
 - `cat [file]...` - Exibe conteúdo de arquivos
-
-### Gerenciamento de Processos
-- Execução de programas externos (`./programa`)
-- Suporte a processos em background (`comando &`)
-
-### Recursos Avançados
-- Redirecionamento I/O (`>`, `<`, `>>`, `|`)
-- Histórico de comandos (navegação com ↑/↓)
-- Tratamento robusto de erros
 
 ## Tecnologias e Conceitos Utilizados:
 
