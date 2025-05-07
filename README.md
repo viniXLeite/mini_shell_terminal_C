@@ -1,43 +1,39 @@
-                                                                                              :::     ::: :::::::::::  ::::::::  :::    :::
-                                                                                              :+:     :+:     :+:     :+:    :+: :+:    :+:
-                                                                                              +:+     +:+     +:+     +:+        +:+    +:+
-                                                                                              +#+     +:+     +#+     +#++:++#++ +#++:++#++
-                                                                                               +#+   +#+      +#+            +#+ +#+    +#+
-                                                                                                #+#+#+#       #+#     #+#    #+# #+#    #+#
-                                                                                                  ###     ###########  ########  ###    ###
+:::     ::: :::::::::::  ::::::::  :::    :::
+:+:     :+:     :+:     :+:    :+: :+:    :+:
++:+     +:+     +:+     +:+        +:+    +:+
++#+     +:+     +#+     +#++:++#++ +#++:++#++
+ +#+   +#+      +#+            +#+ +#+    +#+
+  #+#+#+#       #+#     #+#    #+# #+#    #+#
+    ###     ###########  ########  ###    ###
 
+Um shell simplificado desenvolvido em C, replicando funcionalidades básicas de terminais Unix/Linux.
 
-##Este projeto consiste em um terminal shell simplificado, desenvolvido para executar comandos básicos em um ambiente Unix/Linux. Inspirado em shells como Bash, ele oferece uma interface interativa onde o usuário pode digitar comandos e receber saídas em tempo real, além de suportar operações essenciais de manipulação de arquivos, diretórios e processos.
-Funcionalidades Implementadas:
+## Funcionalidades Principais
 
-✅ Comandos Internos:
+- `exit [n]` - Encerra o shell com código opcional
+- `clr` - Limpa a tela do terminal
+- `echo [-e] [-n] [string]` - Exibe mensagens formatadas
+- `pwd` - Exibe o diretório atual
+- `ls [-l] [-a] [dir]` - Lista conteúdo de diretórios
+- `cd [dir]` - Navega entre diretórios
+- `touch [file]...` - Cria arquivos vazios
+- `cat [file]...` - Exibe conteúdo de arquivos
 
-    exit → Encerra o shell.
+### Gerenciamento de Processos
+- Execução de programas externos (`./programa`)
+- Suporte a processos em background (`comando &`)
 
-    clr → Limpa a tela do terminal.
+### Recursos Avançados
+- Redirecionamento I/O (`>`, `<`, `>>`, `|`)
+- Histórico de comandos (navegação com ↑/↓)
+- Tratamento robusto de erros
 
-    echo → Exibe mensagens na saída padrão.
+## Tecnologias e Conceitos Utilizados:
 
-    pwd → Mostra o diretório atual.
+- Linguagem: C (para acesso direto a syscalls como fork(), execvp(), chdir()).
+- Bibliotecas: <stdio.h>, <stdlib.h>, <unistd.h>, <string.h>.
+- Estruturas de Dados: Manipulação de strings, arrays dinâmicos.
 
-    ls → Lista arquivos e diretórios.
+## Objetivos
+- Fornecer uma base funcional para um shell customizável, podendo ser expandido com novos comandos, autocompletar, scripts ou até mesmo uma interface gráfica futuramente.
 
-    cd → Navega entre diretórios.
-
-    touch → Cria arquivos vazios.
-
-    cat → Exibe o conteúdo de arquivos.
-
-Tecnologias e Conceitos Utilizados:
-
-    Linguagem: C (para acesso direto a syscalls como fork(), execvp(), chdir()).
-
-    Bibliotecas: <stdio.h>, <stdlib.h>, <unistd.h>, <string.h>.
-
-    Estruturas de Dados: Manipulação de strings, arrays dinâmicos.
-
-Objetivo:
-
-Fornecer uma base funcional para um shell customizável, podendo ser expandido com novos comandos, autocompletar, scripts ou até mesmo uma interface gráfica futuramente.
-
-Código Fonte: GitHub (link fictício para exemplo).
