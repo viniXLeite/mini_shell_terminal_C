@@ -38,7 +38,7 @@ void show_command_prompt() {
     }    
     // Invalid username case
     else if (current_path != NULL) {
-        printf(RED "username" RESET ":" GRN "~%s" RESET WHT "& " RESET, username);
+        printf(RED "username" RESET ":" GRN "~%s" RESET WHT "& " RESET, current_path);
     }
     else {
         printf(RED "username" RESET ":" GRN "~path" RESET WHT "& " RESET);
